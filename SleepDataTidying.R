@@ -1,6 +1,6 @@
 library(tidyverse)
 
-raw <- read.csv("C:/Users/andre/Downloads/cmu-sleep.csv")
+raw <- read.csv("cmu-sleep.csv")
 
 sleep_clean <- raw %>%
   select(
