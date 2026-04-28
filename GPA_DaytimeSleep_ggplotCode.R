@@ -18,6 +18,6 @@ sleep_clean |>
     subtitle = sprintf("sample space of %s students", sample_size),
     x = "Time slept(mins)",
     y = "Student GPA"
-  ) + geom_point(size = 2, color = "#2C6DB2") +
+  ) + geom_point(size = 2, color = "yellow3") +
   geom_smooth(method = "lm") +
 theme_bw()
