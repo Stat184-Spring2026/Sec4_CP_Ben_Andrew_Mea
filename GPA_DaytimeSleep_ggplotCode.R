@@ -8,18 +8,16 @@ url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_
 sleep_clean <- read.csv(url)
 
 set.seed(123)
-sample_size <- 100 #change this value if you want a different sample size
+sample_size = 100 #change this value if you want a different sample size
 sleep_clean |>
   slice_sample(n = sample_size, replace = FALSE) |>
   ggplot(
-    mapping = aes(x = total_sleep, y = cum_gpa)
+    mapping = aes(x = naptime, y = cum_gpa)
   ) + labs(
-    title = "GPA by Amount of Sleep",
-    subtitle = sprintf("sample space of %s students",sample_size),
+    title = "GPA by Daytime Sleep",
+    subtitle = sprintf("sample space of %a students", sample_size),
     x = "Time slept(mins)",
     y = "Student GPA"
   ) + geom_point(size = 2, color = "#2C6DB2") +
-  geom_smooth(method = "lm")+  #this uses a linear regression model
-  theme_bw()
-
-  
+  geom_smooth(method = "lm")
+theme_bw()
