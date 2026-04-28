@@ -19,5 +19,5 @@ sleep_clean |>
     x = "Time slept(mins)",
     y = "Student GPA"
   ) + geom_point(size = 2, color = "#2C6DB2") +
-  geom_smooth(method = "lm")
+  geom_smooth(method = "lm") +
 theme_bw()
