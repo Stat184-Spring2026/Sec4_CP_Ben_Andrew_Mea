@@ -15,7 +15,7 @@ sleep_clean |>
     mapping = aes(x = naptime, y = cum_gpa)
   ) + labs(
     title = "GPA by Daytime Sleep",
-    subtitle = sprintf("sample space of %a students", sample_size),
+    subtitle = sprintf("sample space of %s students", sample_size),
     x = "Time slept(mins)",
     y = "Student GPA"
   ) + geom_point(size = 2, color = "#2C6DB2") +
