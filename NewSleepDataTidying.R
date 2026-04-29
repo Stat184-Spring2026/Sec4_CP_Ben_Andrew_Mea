@@ -11,6 +11,7 @@ sleep_clean2 <- raw %>%
     gender      = demo_gender,
     firstgen    = demo_firstgen,
     total_sleep = TotalSleepTime,
+    university = study,
     cum_gpa,
     term_gpa,
     midpoint_sleep,
@@ -33,7 +34,14 @@ sleep_clean2 <- sleep_clean2 %>%
     # First-generation college student: 0 = Not First-Gen, 1 = First-Gen
     firstgen = factor(firstgen,
                       levels = c(0, 1),
-                      labels = c("Not First-Gen", "First-Gen"))
+                      labels = c("Not First-Gen", "First-Gen")),
+   
+    # Study: 1 = Carnegie Mellon University sP2018, 2 = University of Washington SP2018, 3 = University of Washington SP2019, 4 = Notre Dame University SP2016, 5 = Carnegie Mellon University SP2017
+    university = factor(university,
+                        levels = c(1, 2, 3, 4, 5),
+                        labels = c("Carnegie Mellon SP 2018", "University of Washington SP 2018", 
+                                   "University of Washington SP 2019", "Notre Dame University SP 2016", 
+                                   "Carnegie Mellon University SP 2017" ))
   )
 
 sleep_clean2 <- sleep_clean2 %>%
@@ -43,7 +51,8 @@ sleep_clean2 <- sleep_clean2 %>%
     !is.na(term_gpa),
     !is.na(gender),
     !is.na(firstgen),
-    !is.na(race)
+    !is.na(race),
+    !is.na(university)
   )
   
 
