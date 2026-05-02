@@ -13,27 +13,6 @@ sleep_clean2 <- sleep_clean2 %>%
   mutate(race_firstgen = interaction(race, firstgen, sep = " / "))
 
 
-# Sleep Vs GPA by Demographic
-sleep_clean2 %>%
-  select(term_gpa, total_sleep, midpoint_sleep, naptime, race_firstgen) %>%
-  pivot_longer(
-    cols = c(total_sleep, midpoint_sleep, naptime),
-    names_to = "sleep_variable",
-    values_to = "sleep_value"
-  ) %>%
-  ggplot(aes(x = sleep_value, y = term_gpa, color = race_firstgen)) +
-  geom_point(alpha = 0.5) +
-  geom_smooth(method = "lm", se = FALSE) +
-  facet_wrap(~ sleep_variable, scales = "free_x") +
-  labs(
-    title = "Sleep Variables vs Term GPA by Race × First-Gen Status",
-    x = "Sleep Measure (minutes)",
-    y = "Term GPA",
-    color = "Race × First-Gen"
-  ) +
-  theme_minimal() +
-  theme(strip.text = element_text(size = 12, face = "bold"))
-
 # Computing Correlations
 sleep_clean2 %>%
   group_by(race_firstgen) %>%
@@ -42,8 +21,6 @@ sleep_clean2 %>%
     corr_midpoint = cor(midpoint_sleep, term_gpa, use = "complete.obs"),
     corr_naptime = cor(naptime, term_gpa, use = "complete.obs")
   )
-
-
 
 # One Plot per Demographic group 
 
