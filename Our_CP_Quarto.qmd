@@ -128,8 +128,96 @@ print(sleep_clean2)
 
 We want to measure Student's cumulative and term GPA against their total sleep, daytime sleep, and midpoint sleep to see if there are any correlations or trends between them.
 
-## what is the relationship between student GPA and whether or not they are firstgen students?
+## what is the relationship between student GPA and their demographic?
 
-do firstgen students perform better, or vise versa? we want to know if it makes a difference or not, and what kind of difference it makes.
+Do firstgen students perform better, or vise versa? we want to know if it makes a difference or not, and what kind of difference it makes.
 
-## what is the relationship between student GPA and their race and gender?
+Does race or gender 
+
+
+(idk if this is enough)
+
+# Student GPA and Sleep
+
+In this section, we explore the relationships between a Students GPA and several types of sleep.
+
+## Student GPA and Their Total Sleep
+
+### Graph
+
+The following is a scatter plot with the y-axis as GPA and the x-axis as Total sleep. Note: Total sleep is the average sleep the student got during the semester, not the actual total amount of sleep. Each point on the graph is a single student that was randomly sampled from the data set.
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(scales) 
+
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/sleep_clean.csv"
+
+sleep_clean <- read.csv(url)
+
+set.seed(123)
+sample_size <- 200 #change this value if you want a different sample size
+sleep_clean |>
+  slice_sample(n = sample_size, replace = FALSE) |>
+  ggplot(
+    mapping = aes(x = total_sleep, y = cum_gpa)
+  ) + labs(
+    title = "GPA by Amount of Sleep",
+    subtitle = sprintf("sample space of %s students",sample_size),
+    x = "Time slept(mins)",
+    y = "Student GPA"
+  ) + geom_point(size = 2, color = "#2C6DB2") +
+  geom_smooth(aes(color = "Linear Model"),method = "lm", se = FALSE)+ 
+  geom_smooth(aes(color = "GAM Model"),method = "gam", formula = y ~ s(x), se = FALSE) +
+  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type")+
+  theme_bw()
+
+```
+
+### Insights
+
+When looking at the linear regression line, it shows a very weak fit and near zero correlation. Due to this, we can determine that there is no linear relationship/trend between a Students GPA and their total(average) sleep.
+
+When looking at the GAM(non-linear) regression line, we can see nearly the same as the linear regression line, nearly no curve, weak fit. This tells us one of two things. That a students GPA and their average total sleep has no non-linear relation all, or the GAM Model is too simple to capture the relationship, so a more flexible model may be needed. However, due to how similar the two regression lines are, it not likely that we need a more complex model.
+
+For this, we can conclude that simply getting more sleep will not result in a student getting a better GPA, and that getting less sleep will hurt a students GPA. There are multiple factors to that could be affecting a students GPA, like how much they study, activities outside of school, or substance abuse. There is also the possibility that quality of sleep is a more deciding factor than the total sleep.
+
+## Student GPA and their Daytime-Sleep/Naptime
+
+This graph is like the last one, except we replaced total sleep with the students daytime sleep, or how much they napped.
+
+### Graph
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(scales) 
+
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/sleep_clean.csv"
+
+sleep_clean <- read.csv(url)
+
+set.seed(123)
+sample_size <- 200 #change this value if you want a different sample size
+sleep_clean |>
+  slice_sample(n = sample_size, replace = FALSE) |>
+  ggplot(
+    mapping = aes(x = naptime, y = cum_gpa)
+  ) + labs(
+    title = "GPA by Amount of Sleep",
+    subtitle = sprintf("sample space of %s students",sample_size),
+    x = "Time slept(mins)",
+    y = "Student GPA"
+  ) + geom_point(size = 2, color = "#2C6DB2") +
+  geom_smooth(aes(color = "Linear Model"),method = "lm", se = FALSE)+ 
+  geom_smooth(aes(color = "GAM Model"),method = "gam", formula = y ~ s(x), se = FALSE) +
+  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type")+
+  theme_bw()
+```
+
+### Insights
+
+As we can see, the linear and non-linear lines are identical. You can't even see the linear line anymore.
+
+What does this tell us? It tells that our linear model agrees with our non-linear model, showing that it is very stable.
