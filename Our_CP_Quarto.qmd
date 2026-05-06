@@ -152,7 +152,7 @@ We want to measure Student's cumulative and term GPA against their total sleep, 
 
 Do first-gen students perform better, or vise versa? we want to know if it makes a difference or not, and what kind of difference it makes.
 
-Does race or gender have a relationship with GPA?
+Does race or gender have a relationship with GPA? Is there a combination of the 2 that has a strong affect on GPA that could possibly be stronger thsn the sleep variables?
 
 (idk if this is enough)
 
@@ -400,4 +400,28 @@ sleep_clean |>
 Unfortunately, it looks like not much changed. We can see from the graph that the model has low fit, and identical regression lines, virtually no slope, much like the last graphs. The only thing that improved was our models certainty. Like the previous graphs, the high certainty, low fit, and identical regression lines means that our data contains no meaningful pattern, and the model is very sure that there is no pattern.
 
 Surprisingly, it seems that sleep, whether its quantity or quality, doesn't have that big of an impact on a students GPA, implying there are much stronger factors other than sleep.
+
+
+## GPA and demograohics
+In this section, we compare first generation students with non first generation students and represented with undrrepresented students. Also we, compare different combinations of the two, along with their correlations.
+
+### Graoh
+
+
+
+
+
+
+
+### Insights
+
+
+
+
+
+
+
+
+
+
 
