@@ -35,21 +35,23 @@ editor: visual
 Our data set contains data on 632 first-year students from Carnegie Mellon University, University of Washington, and Notre dame University. The relevant dataset attributes are race, gender, first-generation, Total sleep, midpoint sleep, Daytime Sleep, cumulative GPA, and Term GPA. The students' sleep data was collected via fit-bits.
 
 ```{r}
-url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/cmu-sleep.csv"
+library(tidyverse)
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/cmu-sleep.csv"
 
 raw_cmu_data <- read.csv(url)
-print(raw_cmu_data)
+glimpse(raw_cmu_data)
+summary(raw_cmu_data)
 
 ```
 
-## Tidied Data
+## Tidy Data
 
-This is our first tidyed dataset.
+This is our first tidy dataset.
 
 ```{r}
 library(tidyverse)
 
-raw <- read.csv("https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/cmu-sleep.csv")
+raw <- read.csv("https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/cmu-sleep.csv")
 
 sleep_clean <- raw %>%
   select(
@@ -76,17 +78,17 @@ sleep_clean <- sleep_clean %>%
   )
 
 
-sleep_clean
+glimpse(sleep_clean)
 summary(sleep_clean)
 
 ```
 
-This is our second tidied dataset.
+This is our second tidy data set.
 
 ```{r}
 library(tidyverse)
 
-raw <- read_csv("https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/cmu-sleep.csv")
+raw <- read_csv("https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/cmu-sleep.csv")
 
 sleep_clean2 <- raw %>%
   select(
@@ -139,7 +141,7 @@ sleep_clean2 <- sleep_clean2 %>%
     !is.na(university)
   )
   
-sleep_clean2
+glimpse(sleep_clean2)
 summary(sleep_clean2)
 
 ```
@@ -174,7 +176,7 @@ library(ggplot2)
 library(dplyr)
 library(scales) 
 
-url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/sleep_clean.csv"
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_clean.csv"
 
 sleep_clean <- read.csv(url)
 
@@ -221,7 +223,7 @@ library(ggplot2)
 library(dplyr)
 library(scales) 
 
-url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/sleep_clean.csv"
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_clean.csv"
 
 sleep_clean <- read.csv(url)
 
@@ -264,6 +266,12 @@ Next, we graph the relationship between a students GPA and their midpoint sleep,
 ```{r}
 #| label: fig-GPA_MidpointSleep
 #| fig-cap: "scatterplot of the relationship between student GPA and late or early they sleep"
+
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(scales)
+
 ggplot(sleep_clean, aes(x = midpoint_sleep, y = term_gpa)) +
   geom_point(alpha = 0.4, color = "#5A9E6F", size = 2) +
   geom_smooth(aes(color = "Linear Model"),method = "lm", se = TRUE, linewidth = 1) + 
@@ -299,13 +307,14 @@ $$
 \text{Sleep Quality} ≈ \frac{\text{duration score} + \text{regularity score} + \text{timing score}}{3}
 $$
 
-\$\$ \begin{equation}
-\text{duration_score} = \frac{\text{nightsleep} - \text{nightmin}}{\text{nightmax} - \text{nightmin}} \\
-\text{nightsleep} = \text{totalsleep} - \text{daytimesleep}\\
-\end{equation}
+$$
+\text{duration score} = \frac{\text{nightsleep} - \text{nightmin}}{\text{nightmax} - \text{nightmin}}
 $$
 $$
-\text{timing_score} = 1 - \frac{|\text{midpoint_sleep} - \text{timing_center}|}{\text{timing_tol}}
+\text{nightsleep} = \text{totalsleep} - \text{daytimesleep}
+$$
+$$
+\text{timing score} = 1 - \frac{|\text{midpoint sleep} - \text{timing center}|}{\text{timing tol}}
 $$ 
 
 ### Graph
@@ -351,7 +360,7 @@ sleep_quality_vec <- function(total_sleep,
   return(sleep_quality)
 }
 
-url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/sleep_clean.csv"
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_clean.csv"
 sleep_clean <- read.csv(url)
 
 # Compute sleep_quality column
@@ -395,11 +404,11 @@ Unfortunately, it looks like not much changed. We can see from the graph that th
 
 Surprisingly, it seems that sleep, whether its quantity or quality, doesn't have that big of an impact on a students GPA, implying there are much stronger factors other than sleep.
 
-## GPA and demographics
+# Student GPA and demographics
 
 In this section, we compare first generation students with non first generation students and represented with under-represented students by GPA. Also we, compare different combinations of the two, along with their correlations.
 
-### Graph
+## Graph
 
 This graph has multiple views showing amount of sleep by each measure, term GPA, and demographic combination (e.g. Not under-represented / First-Gen). Along with the graph there is a correlation table.
 
@@ -410,7 +419,7 @@ This graph has multiple views showing amount of sleep by each measure, term GPA,
 library(tidyverse)
 
 
-url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/sleep_Clean2.csv"
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_Clean2.csv"
 
 sleep_clean2 <- read.csv(url)
 
@@ -455,7 +464,7 @@ sleep_clean2 %>%
   )
 ```
 
-#### Correlation Table
+## Correlation Table
 
 ```{r}
 #| label: tbl-sleep-correlations
@@ -465,7 +474,7 @@ library(tidyverse)
 library(gt)
 
 # Load data
-url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/sleep_Clean2.csv"
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_Clean2.csv"
 sleep_clean2 <- read.csv(url)
 
 # Create combined demographic variable
@@ -498,7 +507,7 @@ corr_table %>%
 
 ```
 
-### Insights
+## Insights
 
 Across all groups, students who slept more tended to have slightly higher term GPAs, but the effect was small. The strongest and most consistent pattern came from sleep timing: students with later midpoints (meaning they go to bed and wake up later) generally earned lower GPAs. This was especially true for Underrepresented First‑Gen students, who showed the steepest drop in GPA as midpoint sleep shifted later. The scatterplots back this up; the midpoint panels all slope downward, and the decline is most noticeable in that group.
 
@@ -506,50 +515,382 @@ Naptime didn’t show much of a relationship with GPA. Most groups had correlati
 
 # Appendix {.appendix}
 
+## Code For Wrangling Data
+```{r}
+#|echo: true
+#|eval: false
+
+
+library(tidyverse)
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/cmu-sleep.csv"
+
+raw_cmu_data <- read.csv(url)
+
+raw <- read.csv("https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/cmu-sleep.csv")
+
+sleep_clean <- raw %>%
+  select(
+    id          = subject_id,
+    naptime    = daytime_sleep,
+    total_sleep = TotalSleepTime,
+    midpoint_sleep,
+    bedtime_mssd,
+    cum_gpa,
+    term_gpa
+  )
+
+
+
+
+sleep_clean <- sleep_clean %>%
+  filter(
+    !is.na(total_sleep),
+    !is.na(cum_gpa),
+    !is.na(term_gpa),
+    !is.na(midpoint_sleep),
+    !is.na(bedtime_mssd),
+    !is.na(naptime)
+  )
+
+
+
+
+
+raw <- read_csv("https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/cmu-sleep.csv")
+
+sleep_clean2 <- raw %>%
+  select(
+    id          = subject_id,
+    race        = demo_race,
+    gender      = demo_gender,
+    firstgen    = demo_firstgen,
+    total_sleep = TotalSleepTime,
+    university = study,
+    cum_gpa,
+    term_gpa,
+    midpoint_sleep,
+    naptime = daytime_sleep 
+  )
+
+sleep_clean2 <- sleep_clean2 %>%
+  mutate(
+    
+    # Race: 0 = Underrepresented, 1 = Not Underrepresented
+    race = factor(race,
+                  levels = c(0, 1),
+                  labels = c("Underrepresented", "Not Underrepresented")),
+    
+    # Gender: 0 = Male, 1 = Female
+    gender = factor(gender,
+                    levels = c(0, 1),
+                    labels = c("Male", "Female")),
+    
+    # First-generation college student: 0 = Not First-Gen, 1 = First-Gen
+    firstgen = factor(firstgen,
+                      levels = c(0, 1),
+                      labels = c("Not First-Gen", "First-Gen")),
+   
+    # Study: 1 = Carnegie Mellon University sP2018, 2 = University of Washington SP2018, 3 = University of Washington SP2019, 4 = Notre Dame University SP2016, 5 = Carnegie Mellon University SP2017
+    university = factor(university,
+                        levels = c(1, 2, 3, 4, 5),
+                        labels = c("Carnegie Mellon SP 2018", "University of Washington SP 2018", 
+                                   "University of Washington SP 2019", "Notre Dame University SP 2016", 
+                                   "Carnegie Mellon University SP 2017" ))
+  )
+
+sleep_clean2 <- sleep_clean2 %>%
+  filter(
+    !is.na(total_sleep),
+    !is.na(cum_gpa),
+    !is.na(term_gpa),
+    !is.na(gender),
+    !is.na(firstgen),
+    !is.na(race),
+    !is.na(university)
+  )
+  
+
+```
 ## Code For Total Sleep Plot
 
-``` r
+```{r}
 #| echo: true
 #| eval: false
 #| ref.label: fig-GPA_TotalSleep
+
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(scales) 
+
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_clean.csv"
+
+sleep_clean <- read.csv(url)
+
+set.seed(123)
+sample_size <- 200 #change this value if you want a different sample size
+sleep_clean |>
+  slice_sample(n = sample_size, replace = FALSE) |>
+  ggplot(
+    mapping = aes(x = total_sleep, y = cum_gpa)
+  ) + labs(
+    title = "GPA by Amount of Sleep",
+    subtitle = sprintf("sample space of %s students",sample_size),
+    x = "Time slept(mins)",
+    y = "Student GPA"
+  ) + geom_point(size = 2, color = "#2C6DB2") +
+  geom_smooth(aes(color = "Linear Model"),method = "lm") + 
+  geom_smooth(aes(color = "GAM Model"),method = "gam", formula = y ~ s(x)) +
+  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type") +
+  theme_bw()
 ```
 
 ## Code For Daytime Sleep Plot
 
-``` r
+``` {r}
 #| echo: true
 #| eval: false
 #| ref.label: fig-GPA_DaytimeSleep
+
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(scales) 
+
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_clean.csv"
+
+sleep_clean <- read.csv(url)
+
+set.seed(123)
+sample_size <- 300 #change this value if you want a different sample size
+sleep_clean |>
+  slice_sample(n = sample_size, replace = FALSE) |>
+  ggplot(
+    mapping = aes(x = naptime, y = cum_gpa)
+  ) + labs(
+    title = "GPA by Daytime Sleep",
+    subtitle = sprintf("sample space of %s students",sample_size),
+    x = "Time slept(mins)",
+    y = "Student GPA"
+  ) + geom_point(size = 2, color = "yellow3") +
+  geom_smooth(aes(color = "Linear Model"),method = "lm") + 
+  geom_smooth(aes(color = "GAM Model"),method = "gam", formula = y ~ s(x)) +
+  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type") +
+  theme_bw()
+
 ```
 
 ## Code For Midpoint Sleep Plot
 
-``` r
+``` {r}
 #| echo: true
 #| eval: false
 #| ref.label: "fig-GPA_MidpointSleep"
+
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(scales) 
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_clean.csv"
+
+sleep_clean <- read.csv(url)
+
+ggplot(sleep_clean, aes(x = midpoint_sleep, y = term_gpa)) +
+  geom_point(alpha = 0.4, color = "#5A9E6F", size = 2) +
+  geom_smooth(aes(color = "Linear Model"),method = "lm", se = TRUE, linewidth = 1) + 
+  geom_smooth(aes(color = "GAM Model"),method = "gam", formula = y ~ s(x), se = TRUE) + 
+    scale_color_manual(values = c("Linear Model" = "#C44E52", "GAM Model" = "#007BFF"), name = "Regression Type") +
+  labs(
+    title    = "Midpoint Sleep vs Term GPA",
+    subtitle = "Midpoint sleep = halfway point between bedtime and wake time(minutes after midnight)",
+    x        = "Midpoint Sleep(mins)",
+    y        = "Term GPA",
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title    = element_text(face = "bold"),
+    plot.subtitle = element_text(color = "gray40"),
+    plot.caption  = element_text(color = "gray50")
+  )
 ```
 
 ## Code for Quality Sleep Figure
 
-``` r
+``` {r}
 #| echo: true
 #| eval: false
 #| ref.label: "fig-GPA_SleepQuality"
+
+library(tidyverse)
+library(ggplot2)
+
+sleep_quality_vec <- function(total_sleep,
+                              daytime_sleep,
+                              midpoint_sleep,
+                              bedtime_mssd_days,
+                              night_min = 180,    # 3h -> 0
+                              night_max = 540,    # 9h -> 1
+                              regularity_cut_min = 0,   # 0 min -> best
+                              regularity_cut_max = 300, # 300 min -> worst (0)
+                              timing_center = 400,      # minutes after midnight
+                              timing_tol = 240) {       # minutes for timing tolerance (0->1 mapping)
+  
+  # convert mssd from days to minutes
+  bedtime_mssd_min <- bedtime_mssd_days * 1440
+  
+  # nocturnal sleep
+  night_sleep <- total_sleep - daytime_sleep
+  
+  # duration score: linear 0->1 between night_min and night_max
+  duration_score <- (night_sleep - night_min) / (night_max - night_min)
+  duration_score <- pmin(1, pmax(0, duration_score))
+  
+  # regularity score: linear 1 -> 0 as bedtime_mssd_min goes from 0 -> regularity_cut_max
+  regularity_score <- 1 - (bedtime_mssd_min - regularity_cut_min) / (regularity_cut_max - regularity_cut_min)
+  regularity_score <- pmin(1, pmax(0, regularity_score))
+  
+  # timing score: 1 at timing_center, declines linearly to 0 at timing_tol
+  timing_score <- 1 - (abs(midpoint_sleep - timing_center) / timing_tol)
+  timing_score <- pmin(1, pmax(0, timing_score))
+  
+  # combine (simple average)
+  sleep_quality <- (duration_score + regularity_score + timing_score) / 3
+  
+  return(sleep_quality)
+}
+
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_clean.csv"
+sleep_clean <- read.csv(url)
+
+# Compute sleep_quality column
+sleep_clean <- sleep_clean %>%
+  mutate(
+    sleep_quality = sleep_quality_vec(
+      total_sleep = total_sleep,
+      daytime_sleep = naptime,
+      midpoint_sleep = midpoint_sleep,
+      bedtime_mssd_days = bedtime_mssd,
+      night_min = 180,
+      night_max = 540,
+      regularity_cut_max = 300,
+      timing_center = median(midpoint_sleep, na.rm = TRUE),
+      timing_tol = 240
+    )
+  )
+
+set.seed(123)
+sample_size <- 300 #change this value if you want a different sample size
+sleep_clean |>
+  slice_sample(n = sample_size, replace = FALSE) |>
+  ggplot(
+    mapping = aes(x = sleep_quality, y = cum_gpa)
+  ) + labs(
+    title = "GPA by Sleep Quality",
+    subtitle = sprintf("sample space of %s students",sample_size),
+    x = "Sleep Quality(0-1)",
+    y = "Student GPA"
+  ) + geom_point(size = 2, color = "orange") +
+  geom_smooth(aes(color = "Linear Model"),method = "lm") + 
+  geom_smooth(aes(color = "GAM Model"),method = "gam", formula = y ~ s(x)) +
+  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type") +
+  theme_bw()
 ```
 
 ## Code For Demographics Plot
 
-``` r
+``` {r}
 #| echo: true
 #| eval: false
 #| ref.label: "fig-sleep-demographics"
+
+library(tidyverse)
+
+
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_Clean2.csv"
+
+sleep_clean2 <- read.csv(url)
+
+# Combined Demographics Table
+
+sleep_clean2 <- sleep_clean2 %>%
+  mutate(race_firstgen = interaction(race, firstgen, sep = " / "))
+
+
+# Computing Correlations
+sleep_clean2 %>%
+  group_by(race_firstgen) %>%
+  summarise(
+    corr_total = cor(total_sleep, term_gpa, use = "complete.obs"),
+    corr_midpoint = cor(midpoint_sleep, term_gpa, use = "complete.obs"),
+    corr_naptime = cor(naptime, term_gpa, use = "complete.obs")
+  )
+
+# One Plot per Demographic group 
+
+sleep_clean2 %>%
+  select(term_gpa, total_sleep, midpoint_sleep, naptime, race_firstgen) %>%
+  pivot_longer(
+    cols = c(total_sleep, midpoint_sleep, naptime),
+    names_to = "sleep_variable",
+    values_to = "sleep_value"
+  ) %>%
+  ggplot(aes(x = sleep_value, y = term_gpa)) +
+  geom_point(alpha = 0.5, color = "#4C72B0") +
+  geom_smooth(method = "lm", se = TRUE, color = "black") +
+  facet_grid(race_firstgen ~ sleep_variable, scales = "free_x") +
+  labs(
+    title = "Sleep Variables vs Term GPA by Race × First-Gen Status",
+    x = "Sleep Measure (minutes)",
+    y = "Term GPA"
+  ) +
+  theme_minimal() +
+    facet_grid(race_firstgen ~ sleep_variable, scales = "free_x", switch = "y") +
+     theme(
+       strip.text.y.left = element_text(angle = 0, size = 12, face = "bold"),
+       strip.placement = "outside"
+  )
 ```
 
 ## Code for Correlation Table
 
-``` r
+``` {r}
 #| echo: true
 #| eval: false
 #| ref.label: "tbl-sleep-correlations"
+
+library(tidyverse)
+library(gt)
+
+# Load data
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_Clean2.csv"
+sleep_clean2 <- read.csv(url)
+
+# Create combined demographic variable
+sleep_clean2 <- sleep_clean2 %>%
+  mutate(race_firstgen = interaction(race, firstgen, sep = " / "))
+
+# Compute correlations
+corr_table <- sleep_clean2 %>%
+  group_by(race_firstgen) %>%
+  summarise(
+    corr_total_sleep = cor(total_sleep, term_gpa, use = "complete.obs"),
+    corr_midpoint_sleep = cor(midpoint_sleep, term_gpa, use = "complete.obs"),
+    corr_naptime = cor(naptime, term_gpa, use = "complete.obs")
+  ) %>%
+  mutate(across(starts_with("corr_"), round, 3))  # round to 3 decimals
+
+# Display as a formatted table
+corr_table %>%
+  gt() %>%
+  tab_header(
+    title = "Correlation of Sleep Variables with Term GPA",
+    subtitle = "Grouped by Race × First-Generation Status"
+  ) %>%
+  cols_label(
+    race_firstgen = "Race × First-Gen Group",
+    corr_total_sleep = "Total Sleep",
+    corr_midpoint_sleep = "Midpoint Sleep",
+    corr_naptime = "Naptime"
+  )
+
 ```
