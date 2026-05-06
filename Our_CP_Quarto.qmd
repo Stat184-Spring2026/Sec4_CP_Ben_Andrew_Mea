@@ -409,8 +409,6 @@ This graph has multiple views showing amount of sleep by each measure, term GPA,
 #| fig-cap: "Sleep variables (total sleep, midpoint sleep, and naptime) plotted against term GPA, faceted  by combined race x first-generation status."
 
 library(tidyverse)
-=======
->>>>>>> f48b47eb422acb8af0ef69fa61d5ea1d2a6e712c
 
 
 url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/sleep_Clean2.csv"
@@ -505,6 +503,8 @@ corr_table %>%
 
 Across all groups, students who slept more tended to have slightly higher term GPAs, but the effect was small. The strongest and most consistent pattern came from sleep timing: students with later midpoints (meaning they go to bed and wake up later) generally earned lower GPAs. This was especially true for Underrepresented First‑Gen students, who showed the steepest drop in GPA as midpoint sleep shifted later. The scatterplots back this up; the midpoint panels all slope downward, and the decline is most noticeable in that group.
 
-Naptime didn’t show much of a relationship with GPA. Most groups had correlations close to zero, and the trend lines in the naptime panels were basically flat. Overall, the results suggest that *when* students sleep matters more than *how much* they sleep, and that these patterns vary a across demographic groups. Some groups, particularly Underrepresented First‑Gen students, seem more affected by later sleep timing, which could reflect differences in schedules, stress, or other outside factors.
+Naptime didn’t show much of a relationship with GPA. Most groups had correlations close to zero, and the trend lines in the naptime panels were basically flat. Overall, the results suggest that *when* students sleep matters more than *how much* they sleep, and that these patterns vary a across demographic groups. Some groups, particularly Underrepresented First‑Gen students, seem more affected by later sleep timing, which could reflect differences in schedules, stress, or other outside factor.
 
 # Appendix
+
+
