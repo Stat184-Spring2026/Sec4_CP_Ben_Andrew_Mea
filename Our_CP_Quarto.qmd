@@ -22,6 +22,8 @@ format:
     colorlinks: true
 execute:
   echo: false
+  warning: false
+  message: false
   
 editor: visual
 ---
@@ -30,7 +32,7 @@ editor: visual
 
 ## Raw Data
 
-Our data set contains data on 632 first-year students from Carnegie Mellon University, University of Washington, and Notre dame University. The relevant dataset attributes are race, gender, firstgeneration, Total sleep, midpoint sleep, Daytime Sleep, cumulative GPA, and Term GPA. The students' sleep data was collected via fit-bits.
+Our data set contains data on 632 first-year students from Carnegie Mellon University, University of Washington, and Notre dame University. The relevant dataset attributes are race, gender, first-generation, Total sleep, midpoint sleep, Daytime Sleep, cumulative GPA, and Term GPA. The students' sleep data was collected via fit-bits.
 
 ```{r}
 url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/cmu-sleep.csv"
@@ -79,7 +81,7 @@ summary(sleep_clean)
 
 ```
 
-This is out seccond tiyded dataset.
+This is our second tidied dataset.
 
 ```{r}
 library(tidyverse)
@@ -188,9 +190,9 @@ sleep_clean |>
     x = "Time slept(mins)",
     y = "Student GPA"
   ) + geom_point(size = 2, color = "#2C6DB2") +
-  geom_smooth(aes(color = "Linear Model"),method = "lm")+ 
+  geom_smooth(aes(color = "Linear Model"),method = "lm") + 
   geom_smooth(aes(color = "GAM Model"),method = "gam", formula = y ~ s(x)) +
-  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type")+
+  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type") +
   theme_bw()
 
 ```
@@ -235,9 +237,9 @@ sleep_clean |>
     x = "Time slept(mins)",
     y = "Student GPA"
   ) + geom_point(size = 2, color = "yellow3") +
-  geom_smooth(aes(color = "Linear Model"),method = "lm")+ 
+  geom_smooth(aes(color = "Linear Model"),method = "lm") + 
   geom_smooth(aes(color = "GAM Model"),method = "gam", formula = y ~ s(x)) +
-  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type")+
+  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type") +
   theme_bw()
 ```
 
@@ -302,9 +304,9 @@ $$
 \text{nightsleep} = \text{totalsleep} - \text{daytimesleep}\\
 
 
-\end{equation} $$
+\end{equation} \$\$
 
-$$ \text{regularity_score} = \frac{1 - (\text{bedtime_mssd_min} - \text{regularity_cut_min})} {(\text{regularity_cut_max} - \text{regularity_cut_min})}\\ \$\$
+\$\$ \text{regularity_score} = \frac{1 - (\text{bedtime_mssd_min} - \text{regularity_cut_min})} {(\text{regularity_cut_max} - \text{regularity_cut_min})}\\ \$\$
 
 $$
 \text{timing_score} = 1 - \frac{|\text{midpoint_sleep} - \text{timing_center}|}{\text{timing_tol}}
@@ -382,9 +384,9 @@ sleep_clean |>
     x = "Sleep Quality(0-1)",
     y = "Student GPA"
   ) + geom_point(size = 2, color = "orange") +
-  geom_smooth(aes(color = "Linear Model"),method = "lm")+ 
+  geom_smooth(aes(color = "Linear Model"),method = "lm") + 
   geom_smooth(aes(color = "GAM Model"),method = "gam", formula = y ~ s(x)) +
-  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type")+
+  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type") +
   theme_bw()
 
 ```
@@ -397,7 +399,7 @@ Surprisingly, it seems that sleep, whether its quantity or quality, doesn't have
 
 ## GPA and demographics
 
-In this section, we compare first generation students with non first generation students and represented with under-represented students by gpa. Also we, compare different combinations of the two, along with their correlations.
+In this section, we compare first generation students with non first generation students and represented with under-represented students by GPA. Also we, compare different combinations of the two, along with their correlations.
 
 ### Graph
 
@@ -504,6 +506,52 @@ Across all groups, students who slept more tended to have slightly higher term G
 
 Naptime didn’t show much of a relationship with GPA. Most groups had correlations close to zero, and the trend lines in the naptime panels were basically flat. Overall, the results suggest that *when* students sleep matters more than *how much* they sleep, and that these patterns vary a across demographic groups. Some groups, particularly Underrepresented First‑Gen students, seem more affected by later sleep timing, which could reflect differences in schedules, stress, or other outside factor.
 
-# Appendix
+# Appendix {.appendix}
 
+## Code For Total Sleep Plot
 
+``` r
+#| echo: true
+#| eval: false
+#| ref.label: fig-GPA_TotalSleep
+```
+
+## Code For Daytime Sleep Plot
+
+``` r
+#| echo: true
+#| eval: false
+#| ref.label: fig-GPA_DaytimeSleep
+```
+
+## Code For Midpoint Sleep Plot
+
+``` r
+#| echo: true
+#| eval: false
+#| ref.label: "fig-GPA_MidpointSleep"
+```
+
+## Code for Quality Sleep Figure
+
+``` r
+#| echo: true
+#| eval: false
+#| ref.label: "fig-GPA_SleepQuality"
+```
+
+## Code For Demographics Plot
+
+``` r
+#| echo: true
+#| eval: false
+#| ref.label: "fig-sleep-demographics"
+```
+
+## Code for Correlation Table
+
+``` r
+#| echo: true
+#| eval: false
+#| ref.label: "tbl-sleep-correlations"
+```

@@ -41,9 +41,15 @@ sleep_clean2 %>%
     y = "Term GPA"
   ) +
   theme_minimal() +
-  theme(
-    strip.text = element_text(size = 11, face = "bold")
+    facet_grid(race_firstgen ~ sleep_variable, scales = "free_x", switch = "y") +
+     theme(
+       strip.text.y.left = element_text(angle = 0, size = 12, face = "bold"),
+       strip.placement = "outside"
   )
+
+
+
+    
 
 
 # Correlation Table
@@ -59,6 +65,48 @@ corr_table <- sleep_clean2 %>%
 corr_table
 View(corr_table)
 
+
+
+
+#| label: tbl-sleep-correlations
+#| tbl-cap: "Correlations between sleep variables (total sleep, midpoint sleep, and naptime) and term GPA, computed within each combined race × first-generation demographic group."
+
+library(tidyverse)
+install.packages("gt")
+library(gt)
+
+# Load data
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/sleep_Clean2.csv"
+sleep_clean2 <- read.csv(url)
+
+# Create combined demographic variable
+sleep_clean2 <- sleep_clean2 %>%
+  mutate(race_firstgen = interaction(race, firstgen, sep = " / "))
+
+# Compute correlations
+corr_table <- sleep_clean2 %>%
+  group_by(race_firstgen) %>%
+  summarise(
+    corr_total_sleep = cor(total_sleep, term_gpa, use = "complete.obs"),
+    corr_midpoint_sleep = cor(midpoint_sleep, term_gpa, use = "complete.obs"),
+    corr_naptime = cor(naptime, term_gpa, use = "complete.obs")
+  ) %>%
+  mutate(across(starts_with("corr_"), round, 3))  # round to 3 decimals
+
+# Display as a formatted table
+corr_table %>%
+  gt() %>%
+  tab_header(
+    title = "Correlation of Sleep Variables with Term GPA",
+    subtitle = "Grouped by Race × First-Generation Status"
+  ) %>%
+  cols_label(
+    race_firstgen = "Race × First-Gen Group",
+    corr_total_sleep = "Total Sleep",
+    corr_midpoint_sleep = "Midpoint Sleep",
+    corr_naptime = "Naptime"
+  )
+```
 
 
 
