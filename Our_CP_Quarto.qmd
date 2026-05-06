@@ -405,7 +405,7 @@ Surprisingly, it seems that sleep, whether its quantity or quality, doesn't have
 ## GPA and demograohics
 In this section, we compare first generation students with non first generation students and represented with undrrepresented students. Also we, compare different combinations of the two, along with their correlations.
 
-### Graoh
+### Graph
 
 
 
