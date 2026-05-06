@@ -1,0 +1,427 @@
+---
+title: "Student GPA"
+author:
+  - name: Benjamin Loos
+  - name: Andrew McRavey
+  - name: Mea Johnson
+date: "5/2/2026"
+format:
+  html:
+    toc: true
+  pdf:
+    toc: true
+    number-sections: true
+    number-depth: 5
+    fig-align: center
+    cap-location: top
+    geometry: 
+      - top=1in
+      - left=1in
+      - right=1in
+      - bottom=1in
+    colorlinks: true
+execute:
+  echo: false
+  
+editor: visual
+---
+
+# Data set
+
+## Raw Data
+
+Our data set contains data on 632 first-year students from Carnegie Mellon University, University of Washington, and Notre dame University. The relevant dataset attributes are race, gender, firstgeneration, Total sleep, midpoint sleep, Daytime Sleep, cumulative GPA, and Term GPA. The students' sleep data was collected via fit-bits.
+
+```{r}
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/cmu-sleep.csv"
+
+raw_cmu_data <- read.csv(url)
+print(raw_cmu_data)
+
+```
+
+## Tidied Data
+
+This is our first tidyed dataset.
+
+```{r}
+library(tidyverse)
+
+raw <- read.csv("https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/cmu-sleep.csv")
+
+sleep_clean <- raw %>%
+  select(
+    id          = subject_id,
+    naptime    = daytime_sleep,
+    total_sleep = TotalSleepTime,
+    midpoint_sleep,
+    bedtime_mssd,
+    cum_gpa,
+    term_gpa
+  )
+
+
+
+
+sleep_clean <- sleep_clean %>%
+  filter(
+    !is.na(total_sleep),
+    !is.na(cum_gpa),
+    !is.na(term_gpa),
+    !is.na(midpoint_sleep),
+    !is.na(bedtime_mssd),
+    !is.na(naptime)
+  )
+
+
+sleep_clean
+summary(sleep_clean)
+
+```
+
+This is out seccond tiyded dataset.
+
+```{r}
+library(tidyverse)
+
+raw <- read_csv("https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/cmu-sleep.csv")
+
+sleep_clean2 <- raw %>%
+  select(
+    id          = subject_id,
+    race        = demo_race,
+    gender      = demo_gender,
+    firstgen    = demo_firstgen,
+    total_sleep = TotalSleepTime,
+    university = study,
+    cum_gpa,
+    term_gpa,
+    midpoint_sleep,
+    naptime = daytime_sleep 
+  )
+
+sleep_clean2 <- sleep_clean2 %>%
+  mutate(
+    
+    # Race: 0 = Underrepresented, 1 = Not Underrepresented
+    race = factor(race,
+                  levels = c(0, 1),
+                  labels = c("Underrepresented", "Not Underrepresented")),
+    
+    # Gender: 0 = Male, 1 = Female
+    gender = factor(gender,
+                    levels = c(0, 1),
+                    labels = c("Male", "Female")),
+    
+    # First-generation college student: 0 = Not First-Gen, 1 = First-Gen
+    firstgen = factor(firstgen,
+                      levels = c(0, 1),
+                      labels = c("Not First-Gen", "First-Gen")),
+   
+    # Study: 1 = Carnegie Mellon University sP2018, 2 = University of Washington SP2018, 3 = University of Washington SP2019, 4 = Notre Dame University SP2016, 5 = Carnegie Mellon University SP2017
+    university = factor(university,
+                        levels = c(1, 2, 3, 4, 5),
+                        labels = c("Carnegie Mellon SP 2018", "University of Washington SP 2018", 
+                                   "University of Washington SP 2019", "Notre Dame University SP 2016", 
+                                   "Carnegie Mellon University SP 2017" ))
+  )
+
+sleep_clean2 <- sleep_clean2 %>%
+  filter(
+    !is.na(total_sleep),
+    !is.na(cum_gpa),
+    !is.na(term_gpa),
+    !is.na(gender),
+    !is.na(firstgen),
+    !is.na(race),
+    !is.na(university)
+  )
+  
+sleep_clean2
+summary(sleep_clean2)
+
+```
+
+# Questions
+
+## what is the relationship between student GPA and their sleep?
+
+We want to measure Student's cumulative and term GPA against their total sleep, daytime sleep, and midpoint sleep to see if there are any correlations or trends between them.
+
+## what is the relationship between student GPA and their demographic?
+
+Do first-gen students perform better, or vise versa? we want to know if it makes a difference or not, and what kind of difference it makes.
+
+Does race or gender have a relationship with GPA? Is there a combination of the 2 that has a strong affect on GPA that could possibly be stronger thsn the sleep variables?
+
+(idk if this is enough)
+
+# Student GPA and Sleep
+
+In this section, we explore the relationships between a Students GPA and several types of sleep.
+
+## Student GPA and Their Total Sleep
+
+### Graph
+
+The following is a scatter plot with the y-axis as GPA and the x-axis as Total sleep. Note: Total sleep is the average sleep the student got during the semester, not the actual total amount of sleep. Each point on the graph is a single student that was randomly sampled from the data set.
+
+```{r}
+#| label: fig-GPA_TotalSleep
+#| fig-cap: "scatterplot of the relationship between student GPA and their total sleep"
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(scales) 
+
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/sleep_clean.csv"
+
+sleep_clean <- read.csv(url)
+
+set.seed(123)
+sample_size <- 200 #change this value if you want a different sample size
+sleep_clean |>
+  slice_sample(n = sample_size, replace = FALSE) |>
+  ggplot(
+    mapping = aes(x = total_sleep, y = cum_gpa)
+  ) + labs(
+    title = "GPA by Amount of Sleep",
+    subtitle = sprintf("sample space of %s students",sample_size),
+    x = "Time slept(mins)",
+    y = "Student GPA"
+  ) + geom_point(size = 2, color = "#2C6DB2") +
+  geom_smooth(aes(color = "Linear Model"),method = "lm")+ 
+  geom_smooth(aes(color = "GAM Model"),method = "gam", formula = y ~ s(x)) +
+  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type")+
+  theme_bw()
+
+```
+
+### Insights
+
+When looking at the linear regression line, it shows a very weak fit and near zero correlation. Due to this, we can determine that there is no linear relationship/trend between a Students GPA and their total(average) sleep.
+
+When looking at the GAM(non-linear) regression line, we can see nearly the same as the linear regression line, nearly no curve, weak fit. This tells us one of two things. That a students GPA and their average total sleep has no non-linear relation all, or the GAM Model is too simple to capture the relationship, so a more flexible model may be needed. However, due to how similar the two regression lines are, it is unlikely that we need a more complex model.
+
+For this, we can conclude that there is no meaningful relationship between a students GPA and their total sleep. Simply getting more sleep will not result in a student getting a better GPA, and getting less sleep not will hurt a students GPA.
+
+There are multiple factors to that could be affecting a students GPA, like how much they study, activities outside of school, or substance abuse. There is also the possibility that quality of sleep is a more deciding factor than the total sleep.
+
+## Student GPA and their Daytime-Sleep/Nap-time
+
+This graph is like the last one, except we replaced total sleep with the students daytime sleep, or how much they napped.
+
+### Graph
+
+```{r}
+#| label: fig-GPA_DaytimeSleep
+#| fig-cap: "scatterplot of the relationship between student GPA and how much they napped"
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(scales) 
+
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/sleep_clean.csv"
+
+sleep_clean <- read.csv(url)
+
+set.seed(123)
+sample_size <- 300 #change this value if you want a different sample size
+sleep_clean |>
+  slice_sample(n = sample_size, replace = FALSE) |>
+  ggplot(
+    mapping = aes(x = naptime, y = cum_gpa)
+  ) + labs(
+    title = "GPA by Daytime Sleep",
+    subtitle = sprintf("sample space of %s students",sample_size),
+    x = "Time slept(mins)",
+    y = "Student GPA"
+  ) + geom_point(size = 2, color = "yellow3") +
+  geom_smooth(aes(color = "Linear Model"),method = "lm")+ 
+  geom_smooth(aes(color = "GAM Model"),method = "gam", formula = y ~ s(x)) +
+  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type")+
+  theme_bw()
+```
+
+### Insights
+
+As we can see, the linear and non-linear lines are identical. You can't even see the linear line. Both lines show a slight negative correlation. in addition, the model is confident on the left and unsure on the right.
+
+What does this tell us?:
+
+The identical regression lines tells that our linear model agrees with our non-linear model, and shows the relationship is simple, no curvature, no complexity, no nonlinear pattern. In other words, we don't need a more complex model.
+
+However, the models are very unsure for students who take more naps. Unfortunately, this is due to there being very few long nappers in the data set.There is also a very weak fit, meaning the model doesn't accurately represent the data. Even if a trend was found, it wouldn't explain the data.
+
+With all this together, we can conclude that there is no linear, non-linear, strong, or confident relationship. Therefore, there is no meaningful relationship between a students GPA and the time they napped.
+
+## Student GPA and Their Midpoint Sleep
+
+Next, we graph the relationship between a students GPA and their midpoint sleep, midpoint sleep is the halfway point between when someone falls asleep and when they wake up. Midpoint sleep is relevant since it can tell us how early or late a student is sleeping. The higher value of midpoint sleep, the later the student went to bed.
+
+### Graph
+
+```{r}
+#| label: fig-GPA_MidpointSleep
+#| fig-cap: "scatterplot of the relationship between student GPA and late or early they sleep"
+ggplot(sleep_clean, aes(x = midpoint_sleep, y = term_gpa)) +
+  geom_point(alpha = 0.4, color = "#5A9E6F", size = 2) +
+  geom_smooth(aes(color = "Linear Model"),method = "lm", se = TRUE, linewidth = 1) + 
+  geom_smooth(aes(color = "GAM Model"),method = "gam", formula = y ~ s(x), se = TRUE) + 
+    scale_color_manual(values = c("Linear Model" = "#C44E52", "GAM Model" = "#007BFF"), name = "Regression Type") +
+  labs(
+    title    = "Midpoint Sleep vs Term GPA",
+    subtitle = "Midpoint sleep = halfway point between bedtime and wake time(minutes after midnight)",
+    x        = "Midpoint Sleep(mins)",
+    y        = "Term GPA",
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title    = element_text(face = "bold"),
+    plot.subtitle = element_text(color = "gray40"),
+    plot.caption  = element_text(color = "gray50")
+  )
+```
+
+### Insights
+
+Similar to @fig-GPA_TotalSleep and @fig-GPA_DaytimeSleep, the linear and non-linear regression lines are almost identical. We can also see that the confidence of our model is very high. The overlap and high confidence tells us that it is highly unlikely for there to be a strong non-linear relationship. However, our graph has weak fit, evidence by the scatter.
+
+What this really means is that there is a relationship between GPA and midpoint sleep, but it is very weak and not very useful.
+
+## Student GPA and Their Sleep Quality
+
+Since we could not find meaningful relationships between student GPA, total sleep, daytime sleep, and midpoint sleep, we wanted to see if there we could find one the quality of sleep a student got.
+
+Our raw data set does not have the quality of a students sleep, so we had to make a rough estimate using total sleep, daytime sleep, midpoint sleep, and bedtime_mssd(midpoint standard deviation). 
+
+$$
+\text{Sleep Quality} ≈ \frac{\text{duration score} + \text{regularity score} + \text{timing score}}{3}
+$$
+
+$$
+\begin{equation}
+\text{duration_score} = \frac{\text{nightsleep} - \text{nightmin}}{\text{nightmax} - \text{nightmin}} \\
+\text{nightsleep} = \text{totalsleep} - \text{daytimesleep}\\
+
+
+\end{equation}
+$$
+$$
+\text{regularity_score} = \frac{1 - (\text{bedtime_mssd_min} - \text{regularity_cut_min})} {(\text{regularity_cut_max} - \text{regularity_cut_min})}\\
+$$
+
+$$
+\text{timing_score} = 1 - \frac{|\text{midpoint_sleep} - \text{timing_center}|}{\text{timing_tol}}
+$$
+### Graph
+
+```{r}
+#| label: fig-GPA_SleepQuality
+#| fig-cap: "scatterplot of the relationship between student GPA and Sleep Quality"
+library(tidyverse)
+library(ggplot2)
+
+sleep_quality_vec <- function(total_sleep,
+                              daytime_sleep,
+                              midpoint_sleep,
+                              bedtime_mssd_days,
+                              night_min = 180,    # 3h -> 0
+                              night_max = 540,    # 9h -> 1
+                              regularity_cut_min = 0,   # 0 min -> best
+                              regularity_cut_max = 300, # 300 min -> worst (0)
+                              timing_center = 400,      # minutes after midnight
+                              timing_tol = 240) {       # minutes for timing tolerance (0->1 mapping)
+  
+  # convert mssd from days to minutes
+  bedtime_mssd_min <- bedtime_mssd_days * 1440
+  
+  # nocturnal sleep
+  night_sleep <- total_sleep - daytime_sleep
+  
+  # duration score: linear 0->1 between night_min and night_max
+  duration_score <- (night_sleep - night_min) / (night_max - night_min)
+  duration_score <- pmin(1, pmax(0, duration_score))
+  
+  # regularity score: linear 1 -> 0 as bedtime_mssd_min goes from 0 -> regularity_cut_max
+  regularity_score <- 1 - (bedtime_mssd_min - regularity_cut_min) / (regularity_cut_max - regularity_cut_min)
+  regularity_score <- pmin(1, pmax(0, regularity_score))
+  
+  # timing score: 1 at timing_center, declines linearly to 0 at timing_tol
+  timing_score <- 1 - (abs(midpoint_sleep - timing_center) / timing_tol)
+  timing_score <- pmin(1, pmax(0, timing_score))
+  
+  # combine (simple average)
+  sleep_quality <- (duration_score + regularity_score + timing_score) / 3
+  
+  return(sleep_quality)
+}
+
+url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/sleep_clean.csv"
+sleep_clean <- read.csv(url)
+
+# Compute sleep_quality column
+sleep_clean <- sleep_clean %>%
+  mutate(
+    sleep_quality = sleep_quality_vec(
+      total_sleep = total_sleep,
+      daytime_sleep = naptime,
+      midpoint_sleep = midpoint_sleep,
+      bedtime_mssd_days = bedtime_mssd,
+      night_min = 180,
+      night_max = 540,
+      regularity_cut_max = 300,
+      timing_center = median(midpoint_sleep, na.rm = TRUE),
+      timing_tol = 240
+    )
+  )
+
+set.seed(123)
+sample_size <- 300 #change this value if you want a different sample size
+sleep_clean |>
+  slice_sample(n = sample_size, replace = FALSE) |>
+  ggplot(
+    mapping = aes(x = sleep_quality, y = cum_gpa)
+  ) + labs(
+    title = "GPA by Sleep Quality",
+    subtitle = sprintf("sample space of %s students",sample_size),
+    x = "Sleep Quality(0-1)",
+    y = "Student GPA"
+  ) + geom_point(size = 2, color = "orange") +
+  geom_smooth(aes(color = "Linear Model"),method = "lm")+ 
+  geom_smooth(aes(color = "GAM Model"),method = "gam", formula = y ~ s(x)) +
+  scale_color_manual(values = c("Linear Model" = "red", "GAM Model" = "green"), name = "Regression Type")+
+  theme_bw()
+
+```
+
+### Insights
+
+Unfortunately, it looks like not much changed. We can see from the graph that the model has low fit, and identical regression lines, virtually no slope, much like the last graphs. The only thing that improved was our models certainty. Like the previous graphs, the high certainty, low fit, and identical regression lines means that our data contains no meaningful pattern, and the model is very sure that there is no pattern.
+
+Surprisingly, it seems that sleep, whether its quantity or quality, doesn't have that big of an impact on a students GPA, implying there are much stronger factors other than sleep.
+
+
+## GPA and demograohics
+In this section, we compare first generation students with non first generation students and represented with undrrepresented students. Also we, compare different combinations of the two, along with their correlations.
+
+### Graoh
+
+
+
+
+
+
+
+### Insights
+
+
+
+
+
+
+
+
+
+
+
