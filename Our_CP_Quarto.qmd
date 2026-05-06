@@ -299,8 +299,7 @@ $$
 \text{Sleep Quality} ≈ \frac{\text{duration score} + \text{regularity score} + \text{timing score}}{3}
 $$
 
-$$
-\begin{equation}
+\$\$ \begin{equation}
 \text{duration_score} = \frac{\text{nightsleep} - \text{nightmin}}{\text{nightmax} - \text{nightmin}} \\
 \text{nightsleep} = \text{totalsleep} - \text{daytimesleep}\\
 \end{equation}
