@@ -517,8 +517,8 @@ Naptime didn’t show much of a relationship with GPA. Most groups had correlati
 
 ## Code For Wrangling Data
 ```{r}
-#|echo: true
-#|eval: false
+#| echo: true
+#| eval: false
 
 
 library(tidyverse)
