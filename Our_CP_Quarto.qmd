@@ -400,6 +400,7 @@ Surprisingly, it seems that sleep, whether its quantity or quality, doesn't have
 In this section, we compare first generation students with non first generation students and represented with under-represented students by gpa. Also we, compare different combinations of the two, along with their correlations.
 
 ### Graph
+<<<<<<< HEAD
 
 This graph has multiple views showing amount of sleep by each measure, term GPA, and demographic combination (e.g. Not under-represented / First-Gen). Along with the graph there is a correlation table.
 
@@ -408,6 +409,8 @@ This graph has multiple views showing amount of sleep by each measure, term GPA,
 #| fig-cap: "Sleep variables (total sleep, midpoint sleep, and naptime) plotted against term GPA, faceted  by combined race x first-generation status."
 
 library(tidyverse)
+=======
+>>>>>>> f48b47eb422acb8af0ef69fa61d5ea1d2a6e712c
 
 
 url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/sleep_Clean2.csv"
