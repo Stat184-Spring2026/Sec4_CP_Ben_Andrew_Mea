@@ -400,7 +400,6 @@ Surprisingly, it seems that sleep, whether its quantity or quality, doesn't have
 In this section, we compare first generation students with non first generation students and represented with under-represented students by gpa. Also we, compare different combinations of the two, along with their correlations.
 
 ### Graph
-<<<<<<< HEAD
 
 This graph has multiple views showing amount of sleep by each measure, term GPA, and demographic combination (e.g. Not under-represented / First-Gen). Along with the graph there is a correlation table.
 
