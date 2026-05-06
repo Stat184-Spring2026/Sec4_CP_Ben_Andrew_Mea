@@ -302,15 +302,13 @@ $$
 \$\$ \begin{equation}
 \text{duration_score} = \frac{\text{nightsleep} - \text{nightmin}}{\text{nightmax} - \text{nightmin}} \\
 \text{nightsleep} = \text{totalsleep} - \text{daytimesleep}\\
-
-
-\end{equation} \$\$
-
-\$\$ \text{regularity_score} = \frac{1 - (\text{bedtime_mssd_min} - \text{regularity_cut_min})} {(\text{regularity_cut_max} - \text{regularity_cut_min})}\\ \$\$
-
+\end{equation}
+$$
 $$
 \text{timing_score} = 1 - \frac{|\text{midpoint_sleep} - \text{timing_center}|}{\text{timing_tol}}
-$$ \### Graph
+$$ 
+
+### Graph
 
 ```{r}
 #| label: fig-GPA_SleepQuality
