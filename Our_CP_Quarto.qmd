@@ -74,7 +74,7 @@ sleep_clean <- sleep_clean %>%
   )
 
 
-glimpse(sleep_clean)
+sleep_clean
 summary(sleep_clean)
 
 ```
@@ -137,7 +137,8 @@ sleep_clean2 <- sleep_clean2 %>%
     !is.na(university)
   )
   
-print(sleep_clean2)
+sleep_clean2
+summary(sleep_clean2)
 
 ```
 
@@ -149,7 +150,7 @@ We want to measure Student's cumulative and term GPA against their total sleep, 
 
 ## what is the relationship between student GPA and their demographic?
 
-Do firstgen students perform better, or vise versa? we want to know if it makes a difference or not, and what kind of difference it makes.
+Do first-gen students perform better, or vise versa? we want to know if it makes a difference or not, and what kind of difference it makes.
 
 Does race or gender have a relationship with GPA?
 
@@ -202,7 +203,7 @@ When looking at the linear regression line, it shows a very weak fit and near ze
 
 When looking at the GAM(non-linear) regression line, we can see nearly the same as the linear regression line, nearly no curve, weak fit. This tells us one of two things. That a students GPA and their average total sleep has no non-linear relation all, or the GAM Model is too simple to capture the relationship, so a more flexible model may be needed. However, due to how similar the two regression lines are, it is unlikely that we need a more complex model.
 
-For this, we can conclude that there is no meaningful relationship between a students GPA and their total sleep. Simply getting more sleep will not result in a student getting a better GPA, and getting less sleep not will hurt a students GPA. 
+For this, we can conclude that there is no meaningful relationship between a students GPA and their total sleep. Simply getting more sleep will not result in a student getting a better GPA, and getting less sleep not will hurt a students GPA.
 
 There are multiple factors to that could be affecting a students GPA, like how much they study, activities outside of school, or substance abuse. There is also the possibility that quality of sleep is a more deciding factor than the total sleep.
 
@@ -250,11 +251,9 @@ What does this tell us?:
 
 The identical regression lines tells that our linear model agrees with our non-linear model, and shows the relationship is simple, no curvature, no complexity, no nonlinear pattern. In other words, we don't need a more complex model.
 
-However, the models are very unsure for students who take more naps. Unfortunately, this is due to there being very few long nappers in the data set.
+However, the models are very unsure for students who take more naps. Unfortunately, this is due to there being very few long nappers in the data set.There is also a very weak fit, meaning the model doesn't accurately represent the data. Even if a trend was found, it wouldn't explain the data.
 
-There is also a very weak fit, meaning the model doesn't accurately represent the data. Even if a trend was found, it wouldn't explain the data.
-
-With all this together, we can conclude that there is no linear, non-linear, strong, or confident relationship. Therefore, there is no meaningful relationship between a students GPA and the time they napped. 
+With all this together, we can conclude that there is no linear, non-linear, strong, or confident relationship. Therefore, there is no meaningful relationship between a students GPA and the time they napped.
 
 ## Student GPA and Their Midpoint Sleep
 
@@ -286,7 +285,7 @@ ggplot(sleep_clean, aes(x = midpoint_sleep, y = term_gpa)) +
 
 ### Insights
 
-Similar to @fig-GPA_TotalSleep and @fig-GPA_DaytimeSleep, the linear and non-linear regression lines are almost identical. We can also see that the confidence of our model is very high. The overlap and high confidence tells us that it is highly unlikely for there to be a strong non-linear relationship. However, our graph has weak fit, evidence by the scatter. 
+Similar to @fig-GPA_TotalSleep and @fig-GPA_DaytimeSleep, the linear and non-linear regression lines are almost identical. We can also see that the confidence of our model is very high. The overlap and high confidence tells us that it is highly unlikely for there to be a strong non-linear relationship. However, our graph has weak fit, evidence by the scatter.
 
 What this really means is that there is a relationship between GPA and midpoint sleep, but it is very weak and not very useful.
 
@@ -294,7 +293,7 @@ What this really means is that there is a relationship between GPA and midpoint 
 
 Since we could not find meaningful relationships between student GPA, total sleep, daytime sleep, and midpoint sleep, we wanted to see if there we could find one the quality of sleep a student got.
 
-Our raw data set does not have the quality of a students sleep, so we had to make a rough estimate using total sleep, daytime sleep, midpoint sleep, and bedtime_mssd.
+Our raw data set does not have the quality of a students sleep, so we had to make a rough estimate using total sleep, daytime sleep, midpoint sleep, and bedtime_mssd(midpoint standard deviation). 
 
 $$
 \text{Sleep Quality} ≈ \frac{\text{duration score} + \text{regularity score} + \text{timing score}}{3}
@@ -304,13 +303,22 @@ $$
 \begin{equation}
 \text{duration_score} = \frac{\text{nightsleep} - \text{nightmin}}{\text{nightmax} - \text{nightmin}} \\
 \text{nightsleep} = \text{totalsleep} - \text{daytimesleep}\\
-\text{regularity_score} = \frac{1 - (\text{bedtime_mssd_min} - \text{regularity_cut_min})} {(\text{regularity_cut_max} - \text{regularity_cut_min})}\\
-\text{timing_score} = 1 - \frac{|\text{midpoint_sleep} - \text{timing_center}|}{\text{timing_tol}}
+
+
 \end{equation}
 $$
+$$
+\text{regularity_score} = \frac{1 - (\text{bedtime_mssd_min} - \text{regularity_cut_min})} {(\text{regularity_cut_max} - \text{regularity_cut_min})}\\
+$$
 
+$$
+\text{timing_score} = 1 - \frac{|\text{midpoint_sleep} - \text{timing_center}|}{\text{timing_tol}}
+$$
+### Graph
 
 ```{r}
+#| label: fig-GPA_SleepQuality
+#| fig-cap: "scatterplot of the relationship between student GPA and Sleep Quality"
 library(tidyverse)
 library(ggplot2)
 
@@ -318,10 +326,10 @@ sleep_quality_vec <- function(total_sleep,
                               daytime_sleep,
                               midpoint_sleep,
                               bedtime_mssd_days,
-                              night_min = 200,    # 5h -> 0
+                              night_min = 180,    # 3h -> 0
                               night_max = 540,    # 9h -> 1
                               regularity_cut_min = 0,   # 0 min -> best
-                              regularity_cut_max = 350, # 300 min -> worst (0)
+                              regularity_cut_max = 300, # 300 min -> worst (0)
                               timing_center = 400,      # minutes after midnight
                               timing_tol = 240) {       # minutes for timing tolerance (0->1 mapping)
   
@@ -360,9 +368,9 @@ sleep_clean <- sleep_clean %>%
       daytime_sleep = naptime,
       midpoint_sleep = midpoint_sleep,
       bedtime_mssd_days = bedtime_mssd,
-      night_min = 200,
+      night_min = 180,
       night_max = 540,
-      regularity_cut_max = 350,
+      regularity_cut_max = 300,
       timing_center = median(midpoint_sleep, na.rm = TRUE),
       timing_tol = 240
     )
@@ -386,4 +394,10 @@ sleep_clean |>
   theme_bw()
 
 ```
+
+### Insights
+
+Unfortunately, it looks like not much changed. We can see from the graph that the model has low fit, and identical regression lines, virtually no slope, much like the last graphs. The only thing that improved was our models certainty. Like the previous graphs, the high certainty, low fit, and identical regression lines means that our data contains no meaningful pattern, and the model is very sure that there is no pattern.
+
+Surprisingly, it seems that sleep, whether its quantity or quality, doesn't have that big of an impact on a students GPA, implying there are much stronger factors other than sleep.
 
