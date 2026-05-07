@@ -39,3 +39,5 @@ Our repo follows a pretty standard structure, It has folders the have all the im
 
 ## Authors
 Andrew Mcravey (ajm9746@psu.edu)
+Mea Johnson (mvj5533@psu.edu)
+Ben Loos (bjl5953@psu.edu)
