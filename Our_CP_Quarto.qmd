@@ -27,7 +27,10 @@ execute:
   
 editor: visual
 ---
-
+# Care
+This project follows CARE principles because it works with student data in a respectful way and focuses on paterrens that can help support students.
+# Fair 
+The project akso follows Fair principles because everything is clearly labeled, and easily reproducible. The data comes from a public source and this document shows every step of our analysis, so it can be repeated or built upon.
 # Data set
 
 ## Raw Data
@@ -471,7 +474,7 @@ sleep_clean2 %>%
 #| tbl-cap: "Correlations between sleep variables and term GPA, computed within each combined race x first-generation demographic group."
 
 library(tidyverse)
-library(gt)
+library(knitr)
 
 # Load data
 url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_Clean2.csv"
@@ -491,19 +494,17 @@ corr_table <- sleep_clean2 %>%
   ) %>%
   mutate(across(starts_with("corr_"), round, 3))  # round to 3 decimals
 
-# Display as a formatted table
-corr_table %>%
-  gt() %>%
-  tab_header(
-    title = "Correlation of Sleep Variables with Term GPA",
-    subtitle = "Grouped by Race × First-Generation Status"
-  ) %>%
-  cols_label(
-    race_firstgen = "Race × First-Gen Group",
-    corr_total_sleep = "Total Sleep",
-    corr_midpoint_sleep = "Midpoint Sleep",
-    corr_naptime = "Naptime"
+# Display table
+kable(
+  corr_table,
+  caption = "Correlation of Sleep Variables with Term GPA",
+  col.names = c(
+    "Race × First-Gen Group",
+    "Total Sleep",
+    "Midpoint Sleep",
+    "Naptime"
   )
+)
 
 ```
 
@@ -859,7 +860,7 @@ sleep_clean2 %>%
 #| ref.label: "tbl-sleep-correlations"
 
 library(tidyverse)
-library(gt)
+library(knitr)
 
 # Load data
 url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_Clean2.csv"
@@ -879,18 +880,16 @@ corr_table <- sleep_clean2 %>%
   ) %>%
   mutate(across(starts_with("corr_"), round, 3))  # round to 3 decimals
 
-# Display as a formatted table
-corr_table %>%
-  gt() %>%
-  tab_header(
-    title = "Correlation of Sleep Variables with Term GPA",
-    subtitle = "Grouped by Race × First-Generation Status"
-  ) %>%
-  cols_label(
-    race_firstgen = "Race × First-Gen Group",
-    corr_total_sleep = "Total Sleep",
-    corr_midpoint_sleep = "Midpoint Sleep",
-    corr_naptime = "Naptime"
+# Display table
+kable(
+  corr_table,
+  caption = "Correlation of Sleep Variables with Term GPA",
+  col.names = c(
+    "Race × First-Gen Group",
+    "Total Sleep",
+    "Midpoint Sleep",
+    "Naptime"
   )
+)
 
 ```
