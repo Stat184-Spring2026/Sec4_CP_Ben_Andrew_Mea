@@ -8,11 +8,8 @@ The goal of this project is to explore how different aspects of sleep relate to 
 ## Overview
 In this project, we analyze a dataset from Carnegie Mellon University that tracks sleep habits and academic outcomes for first‑year students. We examine how nightly sleep, midpoint sleep, naptime, race, gender, and first‑generation status relate to both cumulative and term GPA. To do this, we clean and wrangle the data, reshape it into usable formats, and create clear visualizations using the tidyverse and ggplot2 libraries in R. Throughout the analysis, we pair each visualization with concise, accessible explanations to help readers understand the patterns we observe and what they might mean for student success.
 
-## Interesting Insight (Optional)
-This is optional but highly recommended. You'll include one interesting insight from your project as part of the README. This insight is most effective when you include a visual. Keep in mind that this visual must be included as an image file (e.g., JPG, PNG, etc.). You can export plots created with {ggplot2} by using the function ggsave.
-
 ## Data Sources and Acknowledgements
-Be sure to list where you got any data used within the project. Be sure to acknowledge any one whose work or elements you're drawing upon.
+We got our data from the Carnegie Mellon University Statistics and Data Science Repository. The data set we used was Nightly sleep time and GPA in first-years by Shunyi Zheng published July 25, 2023 with data collected in 2019
 
 ## Current Plan
 Our plan for this project is as follows:
