@@ -34,7 +34,8 @@ Our plan for this project is as follows:
 15.) sumbit required files to canvas
 
 ## Repo Structure
-Use this section to explain the structure of your repo. This should help visitors quickly figure out where they should look to find certain elements. Further, you can use this space to highlight and briefly explain important/key files in the repo.
+Our repo follows a pretty standard structure, It has folders the have all the important plots and codes for the plots( Plots),table creation code (Data), and quarto files (Our_CP_Quarto_files) that people may want to look at. Most importantly in oour repo is our QMD file (Our_CP_Quarto.qmd) which has all of our code, takeaways from data, and research questions and will act as our final project submission. there is also a PDF file (Our_CP_Quarto.pdf) created from our QMD file which show a more comple and preactical view of our final project.
+
 
 ## Authors
-Give information about who are the authors of the project and how people can get in touch if they have questions.
+Andrew Mcravey (ajm9746@psu.edu)
