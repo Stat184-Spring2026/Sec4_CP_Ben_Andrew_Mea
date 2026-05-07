@@ -3,7 +3,7 @@
 
 
 # Sleep on Student GPA
-The goal of this project is to explore how different aspects of sleep relate to GPA among first‑year college students. Using data on nightly sleep duration, sleep timing, and napping habits—along with demographic information such as race, gender, and first‑generation status, we look for meaningful patterns that might help explain differences in academic performance. Our goal is to see whether certain sleep behaviors consistently align with higher or lower GPAs and whether these relationships vary across demographic groups.
+The goal of this project is to explore how different aspects of sleep relate to GPA among first‑year college students. Using data on nightly sleep duration, sleep timing, and napping habits; along with demographic information such as race, gender, and first‑generation status, we look for meaningful patterns that might help explain differences in academic performance. Our goal is to see whether certain sleep behaviors consistently align with higher or lower GPAs and whether these relationships vary across demographic groups.
 
 ## Overview
 In this project, we analyze a dataset from Carnegie Mellon University that tracks sleep habits and academic outcomes for first‑year students. We examine how nightly sleep, midpoint sleep, naptime, race, gender, and first‑generation status relate to both cumulative and term GPA. To do this, we clean and wrangle the data, reshape it into usable formats, and create clear visualizations using the tidyverse and ggplot2 libraries in R. Throughout the analysis, we pair each visualization with concise, accessible explanations to help readers understand the patterns we observe and what they might mean for student success.
