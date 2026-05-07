@@ -474,7 +474,7 @@ sleep_clean2 %>%
 #| tbl-cap: "Correlations between sleep variables and term GPA, computed within each combined race x first-generation demographic group."
 
 library(tidyverse)
-library(gt)
+library(knitr)
 
 # Load data
 url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_Clean2.csv"
@@ -504,6 +504,7 @@ kable(
     "Midpoint Sleep",
     "Naptime"
   )
+)
 
 ```
 
@@ -859,7 +860,7 @@ sleep_clean2 %>%
 #| ref.label: "tbl-sleep-correlations"
 
 library(tidyverse)
-library(gt)
+library(knitr)
 
 # Load data
 url <- "https://raw.githubusercontent.com/Stat184-Spring2026/Sec4_CP_Ben_Andrew_Mea/refs/heads/main/Data/sleep_Clean2.csv"
@@ -889,5 +890,6 @@ kable(
     "Midpoint Sleep",
     "Naptime"
   )
+)
 
 ```
